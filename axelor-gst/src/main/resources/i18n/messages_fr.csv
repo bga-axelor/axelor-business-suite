@@ -277,7 +277,6 @@
 "invoiceLineMenu.status",,,
 "product.code",,,
 "whatever@example.com",,,
-"key","message","comment","context"
-"Invoice.igst","Invoice igst",,
-"Invoice.sgst","Invoice sgst",,
-"Invoice.cgst","Invoice cgst",,
+"Invoice.igst","igst",,
+"Invoice.sgst","sgst",,
+"Invoice.cgst","cgst",,
