@@ -285,3 +285,7 @@
 "Invoice.netCGST",Net CGST,,
 "Registration date is not valid !.","La date d'inscription n'est pas valide!",,
 "Start date is not valid !.","Start date is not valid !.",,
+"Don’t allows to put days which exceed duration between open and close registration dates.","Don’t allows to put days which exceed duration between open and close registration dates.",,
+"This event capacity is exceed.","This event capacity is exceed.",,
+"Registration date  is not between open and close registration dates.","Registration date  is not between open and close registration dates.",,
+

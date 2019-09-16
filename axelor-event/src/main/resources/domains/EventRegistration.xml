@@ -13,13 +13,11 @@
 
 				<many-to-one name="address" ref="com.axelor.apps.event.db.EventAddress"
 						title="Address" />
-				<datetime name="registrationDate" title="Registration Date" />
+				<datetime name="registrationDate" required="true" title="Registration Date" />
 
 				<decimal name="amount" readonly="true" title=" Amount" precision="20" scale="2" />
 
-
-				<finder-method name="findByEvent" using="event" />
-				<finder-method name="findByemail" using="email" />
+				<boolean name="isSendEmail" default="false" />
 
 		</entity>
 

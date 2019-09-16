@@ -11,7 +11,7 @@
 				<field name="address" />
 				<field name="registrationDate" />
 				<field name="amount" />
-
+				<field name="isSendEmail" />
 
 		</grid>
 
@@ -19,16 +19,20 @@
 				model="com.axelor.apps.event.db.EventRegistrations" css="panel-blue"
 				onSave="event-action-group-registration-validation,save">
 				<panel>
-						<field name="event" onChange="action-event-comput-registration-amount" />
+						<field name="isSendEmail" />
+						<field name="event" onChange="action-event-comput-registration-amount"
+								if="_isOpenFromMenu" />
 						<field name="name" />
 						<field name="email"
 								pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$" />
 						<field name="address" />
-						<field name="registrationDate" />
+						<field name="registrationDate" required="true"
+								onChange="action-event-comput-registration-amount" />
 						<field name="amount" />
 				</panel>
-				<panel-dashlet name="eventPanel" action="action-event-events-dashlet"
-						title="Events" if="_isOpenFromMenu" />
+
+				<!-- <panel-dashlet name="eventPanel" action="action-event-events-dashlet" -->
+				<!-- title="Events" if="_isOpenFromMenu" /> -->
 
 		</form>
 
@@ -50,13 +54,14 @@
 				<error message="This event capacity is exceed."
 						if="eval:event.capacity ==(int) __repo__(EventRegistrations).all().filter('self.event= :event').bind('event', event).count()" />
 
-
+				<error message="Registration date  is not between open and close registration dates."
+						if="event.registrationOpen &gt; registrationDate.toLocalDate() || event.registrationClose &lt; registrationDate.toLocalDate()" />
 		</action-validate>
 
 
 		<action-method name="action-event-comput-registration-amount">
 				<call class="com.axelor.apps.event.web.EventRegistrationController"
-						method="computeRegisterationAmount" />
+						method="computeRegisterationAmount" if="registrationDate != null &amp;&amp; event !=null" />
 		</action-method>
 
 		<!-- wizard open from import -->
@@ -68,21 +73,23 @@
 
 
 				<panel>
-			<field name="$envimportFile" title="File" type="many-to-one"  widget="binary-link" target="com.axelor.meta.db.MetaFile"/>
-			<field name="$csvMetaFile" title="Csv generated" type="many-to-one"  widget="binary-link" target="com.axelor.meta.db.MetaFile" readonly="true"/>
+						<field name="$envImportFile" title="File" type="many-to-one" widget="binary-link"
+								target="com.axelor.meta.db.MetaFile" />
+						<!-- <field name="$csvMetaFile" title="Csv generated" type="many-to-one" widget="binary-link" -->
+						<!-- target="com.axelor.meta.db.MetaFile" readonly="true" /> -->
 				</panel>
 
 				<panel sidebar="true">
 						<button name="importBtn" title="Import" onClick="action-event-save-wizard" colSpan="12"
-								width="200px" readonlyIf="$importFile == null" />
+								width="200px" readonlyIf="$envImportFile == null" />
 				</panel>
 
 
 		</form>
 
-<!-- 		<action-validate name="action-event-check-file-validation"> -->
+		<!-- <action-validate name="action-event-check-file-validation"> -->
 
-<!-- 		</action-validate> -->
+		<!-- </action-validate> -->
 
 		<action-method name="action-event-save-wizard">
 				<call class="com.axelor.apps.event.web.ImportController" method="importCSVData" />

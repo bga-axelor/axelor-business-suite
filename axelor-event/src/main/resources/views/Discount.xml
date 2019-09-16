@@ -17,7 +17,7 @@
 				css="panel-blue" onSave="action-method-check-beforeDays,save">
 				<panel>
 						<field name="beforeDays" />
-						<field name="discountPercent" />
+						<field name="discountPercent" onChange="action-event-set-amount" />
 						<field name="event" onChange="action-event-set-amount" />
 						<field name="discountAmount" />
 				</panel>
@@ -27,8 +27,11 @@
 		<action-method name="action-method-check-beforeDays">
 				<call class="com.axelor.apps.event.web.DiscountController" method="checkDays" />
 		</action-method>
-			<action-method name="action-event-set-amount">
-		<call class="com.axelor.apps.event.web.DiscountController"
-						method="computeAmount" />
+
+
+
+		<action-method name="action-event-set-amount">
+				<call class="com.axelor.apps.event.web.DiscountController" method="computeAmount"
+						if="discountPercent != null &amp;&amp; event !=null" />
 		</action-method>
 </object-views>

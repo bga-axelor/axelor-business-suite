@@ -3,17 +3,11 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<calendar name="event-calendar" 
-			  model="com.axelor.apps.event.db.Events" 
-			  title="Events "
-			  eventStart="startDate"
-			  eventStop="endDate"
-			  eventLength="1"
-			  colorBy="statusSelect"
-			  mode="month">
-			  <field name="envRef"/>
-	</calendar>
-	
+		<calendar name="event-calendar" model="com.axelor.apps.event.db.Events" title="Events "
+				eventStart="startDate" eventStop="endDate" eventLength="1" colorBy="statusSelect" mode="month">
+				<field name="envRef" />
+		</calendar>
+
 
 		<cards name="events-cards" title="Event" model="com.axelor.apps.event.db.Events"
 				orderBy="startDate">
@@ -48,11 +42,7 @@
 
 
 		<grid model="com.axelor.apps.event.db.Events" title="Event" name="events-grid">
-				<toolbar>
-						<button name="btnImportRegistration" onClick="action-event-import-registration"
-								title="Import Registration" />
 
-				</toolbar>
 				<field name="evnRef" />
 				<field name="startDate" />
 				<field name="endDate" />
@@ -69,6 +59,8 @@
 		</grid>
 
 
+
+
 		<form name="events-form" title="Event" model="com.axelor.apps.event.db.Events"
 				onLoad="event-action-group-set-onload" onSave="event-action-group-validation,save">
 				<toolbar>
@@ -78,7 +70,7 @@
 						<button name="btnPrint" title="Print" showIf="id" onClick="print.event.eventDetail"
 								icon="fa-print" />
 						<button name="btnSendMail" title="Send Mail" showIf="id"
-								onClick="send.event.email"  />
+								onClick="action.send.event.email" />
 				</toolbar>
 
 				<panel title="Event" css="panel-red">
@@ -152,8 +144,7 @@
 
 		<action-report output="EventDetails-${date}${time}" name="print.event.eventDetail"
 				design="EventDetails.rptdesign" format="pdf">
-				<param name="eventId"
-						expr="call:com.axelor.apps.event.db.Events.EventRegistrationController:checkId(id)" />
+				<param name="eventId" expr="eval:id" />
 
 		</action-report>
 
@@ -162,5 +153,11 @@
 				<view type="form" name="event-registration-form-wizard" />
 				<context name="_eventId" expr="eval:id" />
 		</action-view>
+
+
+
+		<action-method name="action.send.event.email">
+				<call class="com.axelor.apps.event.web.EventsController" method="sendEmails" />
+		</action-method>
 
 </object-views>
