@@ -62,10 +62,10 @@
 
 
 		<form name="events-form" title="Event" model="com.axelor.apps.event.db.Events"
-				onLoad="event-action-group-set-onload" onSave="event-action-group-validation,save">
+				onSave="event-action-group-validation,save">
 				<toolbar>
 						<button name="btnImportRegistration" onClick="action-event-import-wizard"
-								title="Import Registration" />
+								title="Import Registration" showIf="id" />
 
 						<button name="btnPrint" title="Print" showIf="id" onClick="print.event.eventDetail"
 								icon="fa-print" />
@@ -95,27 +95,23 @@
 
 
 
-		<action-group name="event-action-group-set-onload">
-				<!-- <action name="event-action-set-totalEntry" /> -->
-				<action name="event-action-set-totalEntry-method" />
-		</action-group>
+		<!-- <action-group name="event-action-group-set-onload"> -->
+		<!-- <action name="event-action-set-totalEntry-method" /> -->
+		<!-- </action-group> -->
 
 
 		<action-record name="event-action-set-totalEntry"
 				model="com.axelor.apps.event.db.Events">
 
-				<!-- __repo__(Company).all().fetchOne() &quot -->
-				<!-- <field name="totalEntry" -->
-				<!-- expr="eval:__repo__(EventRegistrations).all().filter('self.event = :__self__').count()" if="id"/> -->
 				<field name="totalEntry"
 						expr="eval:__repo__(EventRegistrations).all().filter('self.event = :__self__').count()"
 						if="id" />
 
 		</action-record>
 
-		<action-method name="event-action-set-totalEntry-method">
-				<call class="com.axelor.apps.event.web.EventRegistrationController" method="totalEntry" />
-		</action-method>
+		<!-- <action-method name="event-action-set-totalEntry-method"> -->
+		<!-- <call class="com.axelor.apps.event.web.EventRegistrationController" method="totalEntry" /> -->
+		<!-- </action-method> -->
 
 		<action-group name="event-action-group-validation">
 				<action name="action-event-date-validation" />

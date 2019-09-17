@@ -17,11 +17,11 @@
 
 		<form name="event-registration-form" title="Event Registration"
 				model="com.axelor.apps.event.db.EventRegistrations" css="panel-blue"
-				onSave="event-action-group-registration-validation,save">
+				onSave="event-action-group-registration-validation,save,event-action-registration-change-event-details">
 				<panel>
 						<field name="isSendEmail" readonly="true" />
 						<field name="event" onChange="action-event-comput-registration-amount"
-								if="_isOpenFromMenu" />
+								if="_isOpenFromMenu"  />
 						<field name="name" />
 						<field name="email"
 								pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$" />
@@ -88,9 +88,10 @@
 
 		</form>
 
-		<!-- <action-validate name="action-event-check-file-validation"> -->
-
-		<!-- </action-validate> -->
+		<action-method name="event-action-registration-change-event-details">
+				<call class="com.axelor.apps.event.web.EventRegistrationController"
+						method="changeEventDetail" />
+		</action-method>
 
 		<action-method name="action-event-save-wizard">
 				<call class="com.axelor.apps.event.web.ImportController" method="importCSVData" />

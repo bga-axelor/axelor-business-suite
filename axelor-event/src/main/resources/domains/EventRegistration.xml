@@ -5,7 +5,7 @@
 
 		<module name="event" package="com.axelor.apps.event.db" />
 
-		<entity name="EventRegistrations" lang="java">
+		<entity name="EventRegistrations" lang="java" >
 
 				<many-to-one name="event" ref="com.axelor.apps.event.db.Events" />
 				<string name="name" required="true" title="Name" />

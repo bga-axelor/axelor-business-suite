@@ -4,7 +4,9 @@ import com.axelor.apps.event.db.Discount;
 import com.axelor.apps.event.db.EventRegistrations;
 import com.axelor.apps.event.db.Events;
 import com.axelor.apps.event.db.repo.EventRegistrationsRepository;
+import com.axelor.apps.event.db.repo.EventsRepository;
 import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -15,6 +17,8 @@ import java.util.List;
 public class EventRegistrationsServiceImpl implements EventRegistrationsService {
 
   @Inject EventRegistrationsRepository eventRegistrationsRepository;
+
+  @Inject EventsRepository eventsRepository;
 
   @Override
   public BigDecimal computeRegisterationAmount(EventRegistrations eventRegistrations) {
@@ -47,7 +51,8 @@ public class EventRegistrationsServiceImpl implements EventRegistrationsService 
   }
 
   @Override
-  public Events totalEntry(Events events) {
+  @Transactional
+  public Events changeEventDetail(Events events) {
     BigDecimal amountCollected = BigDecimal.ZERO;
     BigDecimal totalDiscount = BigDecimal.ZERO;
     int totalEntry =
@@ -67,6 +72,6 @@ public class EventRegistrationsServiceImpl implements EventRegistrationsService 
     events.setAmountCollected(amountCollected);
     events.setTotalDiscount(totalDiscount);
 
-    return events;
+    return eventsRepository.save(events);
   }
 }

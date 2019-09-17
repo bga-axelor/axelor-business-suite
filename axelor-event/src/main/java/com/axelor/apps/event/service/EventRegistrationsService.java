@@ -8,5 +8,5 @@ public interface EventRegistrationsService {
 
   BigDecimal computeRegisterationAmount(EventRegistrations eventRegistrations);
 
-  Events totalEntry(Events events);
+  Events changeEventDetail(Events events);
 }

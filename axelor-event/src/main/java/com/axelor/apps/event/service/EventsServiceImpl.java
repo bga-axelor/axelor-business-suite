@@ -1,7 +1,5 @@
 package com.axelor.apps.event.service;
 
-import java.util.HashSet;
-import java.util.Set;
 import com.axelor.apps.event.db.EventRegistrations;
 import com.axelor.apps.event.db.Events;
 import com.axelor.apps.event.db.repo.EventRegistrationsRepository;
@@ -14,6 +12,8 @@ import com.axelor.apps.message.service.MessageService;
 import com.axelor.exception.AxelorException;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EventsServiceImpl implements EventsService {
 

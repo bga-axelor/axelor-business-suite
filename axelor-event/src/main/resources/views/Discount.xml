@@ -5,7 +5,7 @@
 
 
 		<grid model="com.axelor.apps.event.db.Discount" title="Discount" name="event-discount-grid">
-				<field name="event" />
+				<field name="event" if="_isOpenFromMenu" />
 				<field name="beforeDays" />
 				<field name="discountPercent" />
 				<field name="discountAmount" />

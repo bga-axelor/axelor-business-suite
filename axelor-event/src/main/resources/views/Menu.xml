@@ -48,6 +48,7 @@
 				model="com.axelor.apps.event.db.Discount">
 				<view type="grid" name="event-discount-grid" />
 				<view type="form" name="event-discount-form" />
+				<context name="_isOpenFromMenu" expr="true" />
 		</action-view>
 
 
