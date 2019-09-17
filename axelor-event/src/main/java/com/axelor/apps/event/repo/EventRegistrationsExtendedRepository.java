@@ -10,6 +10,7 @@ public class EventRegistrationsExtendedRepository extends EventRegistrationsRepo
 
   @Inject EventRegistrationsService eventRegistrationsService;
 
+
   @Override
   public void remove(EventRegistrations eventRegistrations) {
     Events events = eventRegistrations.getEvent();

@@ -4,31 +4,24 @@
 		xsi:schemaLocation="http://axelor.com/xml/ns/data-import http://axelor.com/xml/ns/data-import/data-import_5.1.xsd">
 
 
-		<!-- <input file="event_registration.csv" separator="," type="com.axelor.apps.event.db.Events" -->
-		<!-- search="self.evnRef = :evnRef"> -->
-		<!-- <bind to="name" column="name" /> -->
-		<!-- <bind to="evnRef" column="evnRef" /> -->
-
-		<!-- </input> -->
-
-
-		<!-- <adapter name="LocalDateTime" type="com.axelor.data.adapter.JavaTimeAdapter"> -->
-		<!-- <option name="type" value="LocalDateTime" /> -->
-		<!-- <option name="format" value="dd/MM/yyyy HH:mm" /> -->
-		<!-- </adapter> -->
+		<adapter name="LocalDateTimeEvent" type="com.axelor.data.adapter.JavaTimeAdapter">
+				<option name="type" value="LocalDateTime" />
+				<option name="format" value="yyyy-MM-dd HH:mm" />
+		</adapter>
 
 		<input file="event_registration1.csv" separator=","
 				type="com.axelor.apps.event.db.EventRegistrations" search="self.name = :name">
 				<bind to="name" column="name" />
-<!-- 				<bind to="event" search="self.evnRef= :evnRef" column="evnRef" update="false" /> -->
+				<!-- <bind to="event" search="self.evnRef= :evnRef" column="evnRef" update="false" /> -->
 				<bind to="event" search="self.id= :eventId" column="eventId" update="false" />
 				<bind to="email" column="email" />
 				<bind to="registrationDate"
-						eval="call: com.axelor.apps.event.web.ImportController:convertLocalDateTime()" />
+						eval="call: com.axelor.apps.event.web.ImportController:convertLocalDateTime(registrationDate)"
+						column="registrationDate" />
 				<bind to="amount" column="amount" />
 
 
-				<!-- <bind to="registrationDate" column="registrationDate" adapter="LocalDateTime" /> -->
+				<!-- <bind to="registrationDate" column="registrationDate" adapter="LocalDateTimeEvent" /> -->
 				<!-- <bind to="country" column="country" search="self.name= :country" update="false" /> -->
 		</input>
 

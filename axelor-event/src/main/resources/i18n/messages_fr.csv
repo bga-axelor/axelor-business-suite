@@ -290,3 +290,4 @@
 "Don’t allows to put days which exceed duration between open and close registration dates.","Ne permet pas de mettre des jours qui dépassent la durée entre les dates d’ouverture et de fermeture des inscriptions",,
 "This event capacity is exceed.","La capacité de cet événement est dépassée.",,
 "Registration date  is not between open and close registration dates.","La date d'inscription n'est pas entre les dates d'ouverture et de fermeture.",,
+"Please import only CSV file.","Veuillez importer uniquement le fichier CSV.",,
