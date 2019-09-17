@@ -20,8 +20,10 @@ public class EventRegistrationsServiceImpl implements EventRegistrationsService 
   public BigDecimal computeRegisterationAmount(EventRegistrations eventRegistrations) {
     BigDecimal maxDisc = BigDecimal.ZERO;
 
-    LocalDate fromDate = eventRegistrations.getEvent().getRegistrationOpen();
-    LocalDate toDate = eventRegistrations.getRegistrationDate().toLocalDate();
+    //    LocalDate fromDate = eventRegistrations.getEvent().getRegistrationOpen();
+    //    LocalDate toDate = eventRegistrations.getRegistrationDate().toLocalDate();
+    LocalDate fromDate = eventRegistrations.getRegistrationDate().toLocalDate();
+    LocalDate toDate = eventRegistrations.getEvent().getRegistrationClose();
 
     LocalDate tempDateTime = LocalDate.from(fromDate);
     long days = tempDateTime.until(toDate, ChronoUnit.DAYS);

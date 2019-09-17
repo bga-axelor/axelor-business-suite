@@ -5,7 +5,7 @@
 
 		<calendar name="event-calendar" model="com.axelor.apps.event.db.Events" title="Events "
 				eventStart="startDate" eventStop="endDate" eventLength="1" colorBy="statusSelect" mode="month">
-				<field name="envRef" />
+				<field name="evnRef" />
 		</calendar>
 
 

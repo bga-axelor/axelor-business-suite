@@ -1276,6 +1276,21 @@ from event_events  events left join event_event_address address on address.id=ev
             <text-property name="text">																				Event Details</text-property>
         </label>
         <grid id="24">
+            <property name="dataSet">event</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">evn_ref</property>
+                    <text-property name="displayName">evn_ref</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["evn_ref"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">venue</property>
+                    <text-property name="displayName">venue</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["venue"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <column id="25"/>
             <column id="26"/>
             <row id="27">

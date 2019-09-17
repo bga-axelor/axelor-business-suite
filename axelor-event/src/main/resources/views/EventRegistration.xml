@@ -19,7 +19,7 @@
 				model="com.axelor.apps.event.db.EventRegistrations" css="panel-blue"
 				onSave="event-action-group-registration-validation,save">
 				<panel>
-						<field name="isSendEmail" />
+						<field name="isSendEmail" readonly="true" />
 						<field name="event" onChange="action-event-comput-registration-amount"
 								if="_isOpenFromMenu" />
 						<field name="name" />
@@ -29,6 +29,7 @@
 						<field name="registrationDate" required="true"
 								onChange="action-event-comput-registration-amount" />
 						<field name="amount" />
+						<field name="isSendEmail" readonly="true" />
 				</panel>
 
 				<!-- <panel-dashlet name="eventPanel" action="action-event-events-dashlet" -->
