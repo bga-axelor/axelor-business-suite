@@ -1,7 +1,15 @@
 package com.axelor.apps.event.web;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
 import com.axelor.apps.base.db.ImportHistory;
-import com.axelor.apps.base.exceptions.IExceptionMessage;
+import com.axelor.apps.event.exceptions.IExceptionMessage;
 import com.axelor.apps.event.service.ImportEnvRegiService;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
@@ -14,14 +22,6 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import org.apache.commons.io.FileUtils;
 
 public class ImportController {
 
@@ -33,6 +33,7 @@ public class ImportController {
       throws IOException, AxelorException, ParseException, ClassNotFoundException {
 
     System.out.println("call import..");
+    String eventId = request.getContext().get("_eventId").toString();
 
     MetaFile metaFile =
         metaFileRepo.find(
@@ -42,12 +43,14 @@ public class ImportController {
     if (Files.getFileExtension(csvFile.getName()).equals("csv")) {
       LinkedHashMap<String, Object> map =
           (LinkedHashMap<String, Object>) request.getContext().get("envImportFile");
+    
+      
       MetaFile dataFile =
           Beans.get(MetaFileRepository.class).find(((Integer) map.get("id")).longValue());
 
       try {
 
-        ImportHistory importHistory = importEnvRegiService.importEventRegistration(dataFile);
+        ImportHistory importHistory = importEnvRegiService.importEventRegistration(dataFile,eventId);
         response.setAttr("importHistoryList", "value:add", importHistory);
         File readFile = MetaFiles.getPath(importHistory.getLogMetaFile()).toFile();
         response.setNotify(

@@ -5,5 +5,5 @@ import com.axelor.meta.db.MetaFile;
 
 public interface ImportEnvRegiService {
 
-  ImportHistory importEventRegistration(MetaFile dataFile);
+  ImportHistory importEventRegistration(MetaFile dataFile, String eventId);
 }

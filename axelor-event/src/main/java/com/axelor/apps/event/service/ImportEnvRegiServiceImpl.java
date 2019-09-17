@@ -1,5 +1,16 @@
 package com.axelor.apps.event.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import com.axelor.apps.base.db.ImportConfiguration;
 import com.axelor.apps.base.db.ImportHistory;
 import com.axelor.apps.base.exceptions.IExceptionMessage;
@@ -11,11 +22,6 @@ import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 public class ImportEnvRegiServiceImpl implements ImportEnvRegiService {
 
@@ -24,12 +30,12 @@ public class ImportEnvRegiServiceImpl implements ImportEnvRegiService {
   @Inject private MetaFiles metaFiles;
 
   @Override
-  public ImportHistory importEventRegistration(MetaFile dataFile) {
+  public ImportHistory importEventRegistration(MetaFile dataFile, String eventId) {
     ImportHistory importHistory = null;
     try {
 
       File configXmlFile = this.getConfigXmlFile();
-      File dataCsvFile = this.getDataCsvFile(dataFile);
+      File dataCsvFile = this.getDataCsvFile(dataFile, eventId);
 
       importHistory = getEventRegistrationFile(configXmlFile, dataCsvFile);
       this.deleteTempFiles(configXmlFile, dataCsvFile);
@@ -81,19 +87,45 @@ public class ImportEnvRegiServiceImpl implements ImportEnvRegiService {
     return importHistory;
   }
 
-  private File getDataCsvFile(MetaFile dataFile) {
+  private File getDataCsvFile(MetaFile dataFile, String eventId) throws IOException {
+    BufferedReader br = null;
+    BufferedWriter bw = null;
+    final String lineSep = ",";
 
     File csvFile = null;
+    File csvFile1 = null;
+    String addedColumn = null;
     try {
       File tempDir = Files.createTempDir();
       csvFile = new File(tempDir, "event_registration.csv");
-
+      csvFile1 = new File(tempDir, "event_registration1.csv");
       Files.copy(MetaFiles.getPath(dataFile).toFile(), csvFile);
+      // append eventId column
+
+      br = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile)));
+      bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvFile1)));
+
+      String line = null;
+      int i = 0;
+      for (line = br.readLine(); line != null; line = br.readLine(), i++) {
+        if (i == 0) {
+          addedColumn = String.valueOf("eventId");
+        } else {
+          addedColumn = String.valueOf(eventId);
+        }
+        bw.write(line + lineSep + addedColumn);
+        bw.newLine();
+      }
+
+      Files.copy(MetaFiles.getPath(dataFile).toFile(), csvFile1);
 
     } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      if (br != null) br.close();
+      if (bw != null) bw.close();
     }
-    return csvFile;
+    return csvFile1;
   }
 
   private void deleteTempFiles(File configXmlFile, File dataCsvFile) {
