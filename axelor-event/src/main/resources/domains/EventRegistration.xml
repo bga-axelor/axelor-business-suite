@@ -7,7 +7,7 @@
 
 		<entity name="EventRegistrations" lang="java" >
 
-				<many-to-one name="event" ref="com.axelor.apps.event.db.Events" />
+				<many-to-one name="event" ref="com.axelor.apps.event.db.Events"  required="true"/>
 				<string name="name" required="true" title="Name" />
 				<string name="email" required="true" title="Email" />
 

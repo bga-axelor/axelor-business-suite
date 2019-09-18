@@ -2,15 +2,10 @@ package com.axelor.apps.event.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
-import java.util.Map;
-import org.apache.commons.io.FileUtils;
-import com.axelor.apps.base.db.ImportHistory;
-import com.axelor.apps.event.db.Events;
 import com.axelor.apps.event.db.repo.EventsRepository;
 import com.axelor.apps.event.exceptions.IExceptionMessage;
 import com.axelor.apps.event.service.EventRegistrationsService;
@@ -29,39 +24,30 @@ import com.google.inject.Inject;
 
 public class ImportController {
 
-  @Inject MetaFileRepository metaFileRepo;
-
   @Inject EventRegistrationsService eventRegistrationsService;
 
   @Inject ImportEnvRegiService importEnvRegiService;
 
+  @SuppressWarnings("unchecked")
   public void importCSVData(ActionRequest request, ActionResponse response)
       throws IOException, AxelorException, ParseException, ClassNotFoundException {
 
-    System.out.println("call import..");
     String eventId = request.getContext().get("_eventId").toString();
 
-    MetaFile metaFile =
-        metaFileRepo.find(
-            Long.valueOf(((Map) request.getContext().get("envImportFile")).get("id").toString()));
-    File csvFile = MetaFiles.getPath(metaFile).toFile();
+    LinkedHashMap<String, Object> map =
+        (LinkedHashMap<String, Object>) request.getContext().get("envImportFile");
+
+    MetaFile dataFile =
+        Beans.get(MetaFileRepository.class).find(((Integer) map.get("id")).longValue());
+    File csvFile = MetaFiles.getPath(dataFile).toFile();
 
     if (Files.getFileExtension(csvFile.getName()).equals("csv")) {
-      LinkedHashMap<String, Object> map =
-          (LinkedHashMap<String, Object>) request.getContext().get("envImportFile");
-
-      MetaFile dataFile =
-          Beans.get(MetaFileRepository.class).find(((Integer) map.get("id")).longValue());
 
       try {
 
-        ImportHistory importHistory =
-            importEnvRegiService.importEventRegistration(dataFile, eventId);
-        response.setAttr("importHistoryList", "value:add", importHistory);
-        File readFile = MetaFiles.getPath(importHistory.getLogMetaFile()).toFile();
-        response.setNotify(
-            FileUtils.readFileToString(readFile, StandardCharsets.UTF_8)
-                .replaceAll("(\r\n|\n\r|\r|\n)", "<br />"));
+        importEnvRegiService.importEventRegistration(dataFile, eventId);
+
+        response.setNotify("Event registration import success.");
 
       } catch (Exception e) {
         TraceBackService.trace(response, e);
@@ -75,9 +61,6 @@ public class ImportController {
   }
 
   public LocalDateTime convertLocalDateTime(String strDate) {
-    String str = strDate;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-    return dateTime;
+    return LocalDateTime.parse(strDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
   }
 }

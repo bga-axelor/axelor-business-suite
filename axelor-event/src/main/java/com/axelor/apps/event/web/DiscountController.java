@@ -8,7 +8,7 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Inject;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class DiscountController {
@@ -19,16 +19,13 @@ public class DiscountController {
 
     Discount discount = request.getContext().asType(Discount.class);
 
-    LocalDateTime fromDateTime = discount.getEvent().getStartDate();
-    LocalDateTime toDateTime = discount.getEvent().getEndDate();
+    LocalDate fromDateTime = discount.getEvent().getRegistrationOpen();
+    LocalDate toDateTime = discount.getEvent().getRegistrationClose();
 
-    LocalDateTime tempDateTime = LocalDateTime.from(fromDateTime);
+    LocalDate tempDateTime = LocalDate.from(fromDateTime);
     long days = tempDateTime.until(toDateTime, ChronoUnit.DAYS);
 
     if (discount.getBeforeDays() > days) {
-      //      response.setError(
-      //          "Don’t allows to put days which exceed duration between open and close
-      // registration dates.");
       response.setError(I18n.get(IExceptionMessage.VALIDATE_DISCOUNT_BEFORE_DAYS));
     }
   }
@@ -37,10 +34,11 @@ public class DiscountController {
     BigDecimal amount = BigDecimal.ZERO;
     Discount disc = request.getContext().asType(Discount.class);
     //    Discount amount: Discount percent * Event fees /100.
-    amount =
-        (disc.getDiscountPercent().multiply(disc.getEvent().getEventFees()))
-            .divide(new BigDecimal(100));
-
+    if (disc.getEvent() != null && disc.getDiscountPercent() != BigDecimal.ZERO) {
+      amount =
+          (disc.getDiscountPercent().multiply(disc.getEvent().getEventFees()))
+              .divide(new BigDecimal(100));
+    }
     response.setValue("discountAmount", amount);
   }
 }

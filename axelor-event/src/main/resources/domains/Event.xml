@@ -7,15 +7,14 @@
 
 		<entity name="Events" lang="java">
 
+				<string name="evnRef" namecolumn="true" required="true" />
+				<datetime name="startDate" required="true" title="Start Date" />
+				<datetime name="endDate" required="true" title="End date" />
+				<many-to-one name="venue" ref="com.axelor.apps.event.db.EventAddress"
+						required="true" title="Venue" />
 
-				<string name="evnRef" namecolumn="true" required="true"/>
-				<datetime name="startDate" title="Start Date" />
-				<datetime name="endDate" title="End date" />
-				<many-to-one name="venue" ref="com.axelor.apps.event.db.EventAddress" required="true"
-						title="Venue" />
-
-				<date name="registrationOpen" title="Registration open" />
-				<date name="registrationClose" title="Registration close" />
+				<date name="registrationOpen" required="true" title="Registration open" />
+				<date name="registrationClose" required="true" title="Registration close" />
 				<integer name="capacity" required="true" title="Capacity" />
 				<decimal name="eventFees" required="true" title="Event fees" />
 				<string name="description" large="true" title="Description" />
@@ -29,7 +28,6 @@
 
 				<decimal name="amountCollected" readonly="true" title="Amount Collected" />
 				<decimal name="totalDiscount" readonly="true" title="Total Discount" />
-
 
 
 		</entity>

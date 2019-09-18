@@ -9,20 +9,17 @@
 				<option name="format" value="yyyy-MM-dd HH:mm" />
 		</adapter>
 
-		<input file="event_registration1.csv" separator=","
-				type="com.axelor.apps.event.db.EventRegistrations" search="self.name = :name">
+		<input file="event_registration.csv" separator=","
+				type="com.axelor.apps.event.db.EventRegistrations" search="self.name = :name"
+				call="com.axelor.apps.event.csv.script.ImportEventRegistration:importEventRegistration">
 				<bind to="name" column="name" />
-				<!-- <bind to="event" search="self.evnRef= :evnRef" column="evnRef" update="false" /> -->
 				<bind to="event" search="self.id= :eventId" column="eventId" update="false" />
-				<bind to="email" column="email" />
 				<bind to="registrationDate"
 						eval="call: com.axelor.apps.event.web.ImportController:convertLocalDateTime(registrationDate)"
 						column="registrationDate" />
-				<bind to="amount" column="amount" />
 
 
 				<!-- <bind to="registrationDate" column="registrationDate" adapter="LocalDateTimeEvent" /> -->
-				<!-- <bind to="country" column="country" search="self.name= :country" update="false" /> -->
 		</input>
 
 

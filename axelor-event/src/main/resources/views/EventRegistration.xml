@@ -21,7 +21,7 @@
 				<panel>
 						<field name="isSendEmail" readonly="true" />
 						<field name="event" onChange="action-event-comput-registration-amount"
-								if="_isOpenFromMenu"  />
+								if="_isOpenFromMenu" />
 						<field name="name" />
 						<field name="email"
 								pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$" />
@@ -48,12 +48,14 @@
 		<!-- Validation -->
 
 		<action-group name="event-action-group-registration-validation">
-				<action name="event-action-registration-check-capacity" />
+				<action name="event-action-registration-check-capacity" if="event !=null" />
 		</action-group>
 
 		<action-validate name="event-action-registration-check-capacity">
+				<error message="Please select the event." if="event ==null &amp;&amp _isOpenFromMenu" />
+
 				<error message="This event capacity is exceed."
-						if="eval:event.capacity ==(int) __repo__(EventRegistrations).all().filter('self.event= :event').bind('event', event).count()" />
+						if="eval:event !=null &amp;&amp; event.capacity ==(int) __repo__(EventRegistrations).all().filter('self.event= :event').bind('event', event).count()" />
 
 				<error message="Registration date  is not between open and close registration dates."
 						if="event.registrationOpen &gt; registrationDate.toLocalDate() || event.registrationClose &lt; registrationDate.toLocalDate()" />
@@ -96,4 +98,5 @@
 		<action-method name="action-event-save-wizard">
 				<call class="com.axelor.apps.event.web.ImportController" method="importCSVData" />
 		</action-method>
+
 </object-views>

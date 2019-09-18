@@ -89,7 +89,8 @@
 				</panel>
 
 				<panel-related name="discountsPanel" field="discounts" />
-				<panel-related name="eventRegistrationsPanel" field="eventRegistrations" />
+				<panel-related name="eventRegistrationsPanel" field="eventRegistrations"
+						onChange="event-action-group-registration-validation" />
 
 		</form>
 

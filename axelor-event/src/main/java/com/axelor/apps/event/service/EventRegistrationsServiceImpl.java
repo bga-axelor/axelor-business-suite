@@ -10,9 +10,6 @@ import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class EventRegistrationsServiceImpl implements EventRegistrationsService {
 
@@ -24,27 +21,21 @@ public class EventRegistrationsServiceImpl implements EventRegistrationsService 
   public BigDecimal computeRegisterationAmount(EventRegistrations eventRegistrations) {
     BigDecimal maxDisc = BigDecimal.ZERO;
 
-    //    LocalDate fromDate = eventRegistrations.getEvent().getRegistrationOpen();
-    //    LocalDate toDate = eventRegistrations.getRegistrationDate().toLocalDate();
     LocalDate fromDate = eventRegistrations.getRegistrationDate().toLocalDate();
     LocalDate toDate = eventRegistrations.getEvent().getRegistrationClose();
 
     LocalDate tempDateTime = LocalDate.from(fromDate);
     long days = tempDateTime.until(toDate, ChronoUnit.DAYS);
 
-    List<BigDecimal> discAmountList = new ArrayList<BigDecimal>();
-
     if (!eventRegistrations.getEvent().getDiscounts().isEmpty()
         && eventRegistrations.getEvent().getDiscounts().size() != 0) {
 
       for (Discount discount : eventRegistrations.getEvent().getDiscounts()) {
         if (days <= discount.getBeforeDays()) {
-          discAmountList.add(discount.getDiscountAmount());
+          if (maxDisc.compareTo(discount.getDiscountAmount()) != 1) {
+            maxDisc = discount.getDiscountAmount();
+          }
         }
-      }
-
-      if (!discAmountList.isEmpty()) {
-        maxDisc = Collections.max(discAmountList);
       }
     }
     return eventRegistrations.getEvent().getEventFees().subtract(maxDisc);
@@ -65,9 +56,10 @@ public class EventRegistrationsServiceImpl implements EventRegistrationsService 
 
     for (EventRegistrations er : events.getEventRegistrations()) {
       amountCollected = amountCollected.add(er.getAmount());
-      totalDiscount = totalDiscount.add(events.getEventFees().subtract(er.getAmount()));
     }
 
+    totalDiscount =
+        (events.getEventFees().multiply(new BigDecimal(totalEntry))).subtract(amountCollected);
     events.setTotalEntry(totalEntry);
     events.setAmountCollected(amountCollected);
     events.setTotalDiscount(totalDiscount);

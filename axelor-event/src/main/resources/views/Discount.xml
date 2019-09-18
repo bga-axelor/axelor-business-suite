@@ -29,9 +29,7 @@
 		</action-method>
 
 
-
 		<action-method name="action-event-set-amount">
-				<call class="com.axelor.apps.event.web.DiscountController" method="computeAmount"
-						if="discountPercent != null &amp;&amp; event !=null" />
+				<call class="com.axelor.apps.event.web.DiscountController" method="computeAmount" />
 		</action-method>
 </object-views>
