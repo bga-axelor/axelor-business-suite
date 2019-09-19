@@ -129,7 +129,7 @@ SELECT
 
 		</chart>
 
-		<chart name="chart.gst.no.of.invoice.per.status.line" title="Number of invoice per status ">
+		<chart name="chart.gst.no.of.invoice.per.status.line" title="Number of invoice per status">
 
 				<dataset type="jpql">
     <![CDATA[

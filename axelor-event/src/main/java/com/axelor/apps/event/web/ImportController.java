@@ -1,11 +1,5 @@
 package com.axelor.apps.event.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
 import com.axelor.apps.event.db.repo.EventsRepository;
 import com.axelor.apps.event.exceptions.IExceptionMessage;
 import com.axelor.apps.event.service.EventRegistrationsService;
@@ -21,6 +15,12 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 
 public class ImportController {
 

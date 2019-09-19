@@ -20,20 +20,17 @@
 				onSave="event-action-group-registration-validation,save,event-action-registration-change-event-details">
 				<panel>
 						<field name="isSendEmail" readonly="true" />
-						<field name="event" onChange="action-event-comput-registration-amount"
+						<field name="event" onChange="action-event-group-comput-registration-amount"
 								if="_isOpenFromMenu" />
 						<field name="name" />
 						<field name="email"
 								pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$" />
 						<field name="address" />
 						<field name="registrationDate" required="true"
-								onChange="action-event-comput-registration-amount" />
+								onChange="action-event-group-comput-registration-amount" />
 						<field name="amount" />
 						<field name="isSendEmail" readonly="true" />
 				</panel>
-
-				<!-- <panel-dashlet name="eventPanel" action="action-event-events-dashlet" -->
-				<!-- title="Events" if="_isOpenFromMenu" /> -->
 
 		</form>
 
@@ -47,31 +44,45 @@
 
 		<!-- Validation -->
 
+		<action-group name="action-event-group-comput-registration-amount">
+				<action name="event-action-registration-set-event" if="event == null" />
+				<action name="event-action-registration-check-date" />
+				<action name="action-event-comput-registration-amount" />
+		</action-group>
 		<action-group name="event-action-group-registration-validation">
-				<action name="event-action-registration-check-capacity" if="event !=null" />
+				<action name=" event-action-registration-check-capacity " if="event != null" />
 		</action-group>
 
+
+		<action-method name="event-action-registration-set-event">
+				<call class="com.axelor.apps.event.web.EventRegistrationController" method="setEvent" />
+		</action-method>
+
 		<action-validate name="event-action-registration-check-capacity">
-				<error message="Please select the event." if="event ==null &amp;&amp _isOpenFromMenu" />
 
 				<error message="This event capacity is exceed."
 						if="eval:event !=null &amp;&amp; event.capacity ==(int) __repo__(EventRegistrations).all().filter('self.event= :event').bind('event', event).count()" />
 
-				<error message="Registration date  is not between open and close registration dates."
-						if="event.registrationOpen &gt; registrationDate.toLocalDate() || event.registrationClose &lt; registrationDate.toLocalDate()" />
 		</action-validate>
 
+		<action-condition name="event-action-registration-check-date">
+				<check error="Please select the event." field="event" />
+				<check field="registrationDate"
+						if="event != null &amp;&amp; event.registrationOpen &gt; registrationDate.toLocalDate() || event != null &amp;&amp; event.registrationClose &lt; registrationDate.toLocalDate()"
+						error="Registration date  is not between open and close registration dates." />
+
+		</action-condition>
 
 		<action-method name="action-event-comput-registration-amount">
 				<call class="com.axelor.apps.event.web.EventRegistrationController"
-						method="computeRegisterationAmount" if="registrationDate != null &amp;&amp; event !=null" />
+						method="computeRegisterationAmount" if="registrationDate != null" />
 		</action-method>
 
 		<!-- wizard open from import -->
 
 
 
-		<form name="event-registration-form-wizard" title="Event Registration"
+		<form name="event-registration-form-wizard " title="Event Registration"
 				model="com.axelor.apps.base.db.Wizard" width="large">
 
 

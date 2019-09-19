@@ -7,7 +7,7 @@
 
 		<entity name="Discount" lang="java">
 
-				<integer name="beforeDays" title="Before days" />
+				<integer name="beforeDays" required="true" title="Before days" />
 				<decimal name="discountPercent" title="Discount percent" />
 				<decimal name="discountAmount" readonly="true" title="Discount amount" />
 

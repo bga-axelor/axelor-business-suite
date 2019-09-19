@@ -519,7 +519,7 @@ InvoiceSet.length > 0))"
 						if="eval:__self__.statusSelect == 	3" />
 		</action-validate>
 
-		<kanban name="invoice-kanban" title="Invoice " model="com.axelor.apps.account.db.Invoice"
+		<kanban name="invoice-kanban" title="Invoice" model="com.axelor.apps.account.db.Invoice"
 				columnBy="statusSelect" sequenceBy="priority" onMove="action-gst-invoice-kanban-validate">
 
 

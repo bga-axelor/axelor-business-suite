@@ -12,6 +12,7 @@ import com.axelor.apps.message.service.MessageService;
 import com.axelor.exception.AxelorException;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,5 +64,24 @@ public class EventsServiceImpl implements EventsService {
   private void setSendMailTrue(EventRegistrations eventRegistrations) {
     eventRegistrations.setIsSendEmail(true);
     eventRegistrationsRepository.save(eventRegistrations);
+  }
+
+  @Override
+  public Events changeEventDetail(Events events) {
+
+    BigDecimal amountCollected = BigDecimal.ZERO;
+    BigDecimal totalDiscount = BigDecimal.ZERO;
+
+    int totalEntry = events.getEventRegistrations().size();
+    for (EventRegistrations er : events.getEventRegistrations()) {
+      amountCollected = amountCollected.add(er.getAmount());
+    }
+
+    totalDiscount =
+        (events.getEventFees().multiply(new BigDecimal(totalEntry))).subtract(amountCollected);
+    events.setTotalEntry(totalEntry);
+    events.setAmountCollected(amountCollected);
+    events.setTotalDiscount(totalDiscount);
+    return events;
   }
 }

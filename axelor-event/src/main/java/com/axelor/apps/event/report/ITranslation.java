@@ -19,10 +19,8 @@ package com.axelor.apps.event.report;
 
 public interface ITranslation {
 
-  public static final String INVOICE_IGST = /*$$(*/ "evetnt.totalAmount"; /*)*/
-  public static final String INVOICE_SGST = /*$$(*/ "evetnt.email"; /*)*/
-  public static final String INVOICE_CGST = /*$$(*/ "evetnt.totalAmount"; /*)*/
-  public static final String INVOICE_NET_IGST = /*$$(*/ "evetnt.totalAmount"; /*)*/
-  public static final String INVOICE_NET_SGST = /*$$(*/ "evetnt.totalAmount"; /*)*/
-  public static final String INVOICE_NET_CGST = /*$$(*/ "evetnt.totalAmount"; /*)*/
+  public static final String EVENT_DETAILS = /*$$(*/ "Event.eventDetails"; /*)*/
+  public static final String EVENT_REGISTRATION_EMAIL = /*$$(*/ "Event.registration.email"; /*)*/
+  public static final String EVENT_REGISTRATION_DATE = /*$$(*/ "Event.registration.date"; /*)*/
+  public static final String EVENT_REGISTRATION_AMOUNT = /*$$(*/ "Event.registration.amount"; /*)*/
 }

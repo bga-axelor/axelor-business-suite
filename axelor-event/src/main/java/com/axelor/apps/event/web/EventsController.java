@@ -25,36 +25,10 @@ public class EventsController {
     } catch (AxelorException e) {
       TraceBackService.trace(response, e);
     }
-    //    Message message = new Message();
-    //    EmailAddress emailAddress = new EmailAddress();
-    //    Set<EmailAddress> toEmailAddressSet = new HashSet<EmailAddress>();
-    //    EmailAccount emailAccount;
-    //    // find default validate congure email account
-    //    emailAccount =
-    //        emailAccountRepository
-    //            .all()
-    //            .filter("self.isValid = :isValid and self.isDefault = :isDefault")
-    //            .bind("isValid", true)
-    //            .bind("isDefault", true)
-    //            .fetchOne();
-    //
-    //    emailAddress.setAddress("bga.axelor@gmail.com");
-    //    toEmailAddressSet.add(emailAddress);
-    //    message.setMediaTypeSelect(2);
-    //    message.setSubject("send static message...");
-    //    message.setToEmailAddressSet(toEmailAddressSet);
-    //    message.setContent("static email for send from axelor-event for invitation.");
-    //    message.setMailAccount(emailAccount);
-    //    message = messageRepo.save(message);
-    //
-    //    System.out.println(message.getId());
-    //
-    //    try {
-    //      sendEmailServiceImpl.sendMessage(messageRepo.find(message.getId()));
-    //      response.setReload(true);
-    //      response.setFlash(I18n.get(IExceptionMessage.MESSAGE_4));
-    //    } catch (AxelorException e) {
-    //      TraceBackService.trace(response, e);
-    //    }
+  }
+
+  public void changeEventDetail(ActionRequest request, ActionResponse response) {
+    Events events = request.getContext().asType(Events.class);
+    response.setValues(eventService.changeEventDetail(events));
   }
 }

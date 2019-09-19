@@ -6,4 +6,6 @@ import com.axelor.exception.AxelorException;
 public interface EventsService {
 
   void sendEmails(Events events) throws AxelorException;
+
+  Events changeEventDetail(Events events);
 }

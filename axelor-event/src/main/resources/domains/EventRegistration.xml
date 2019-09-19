@@ -15,7 +15,7 @@
 						title="Address" />
 				<datetime name="registrationDate" required="true" title="Registration Date" />
 
-				<decimal name="amount" readonly="true" title=" Amount" precision="20" scale="2" />
+				<decimal name="amount" readonly="true" title="Amount" precision="20" scale="2" />
 
 				<boolean name="isSendEmail" default="false" />
 

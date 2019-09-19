@@ -1,13 +1,5 @@
 package com.axelor.apps.event.service;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import com.axelor.app.AppSettings;
 import com.axelor.apps.base.exceptions.IExceptionMessage;
 import com.axelor.data.csv.CSVImporter;
@@ -17,6 +9,14 @@ import com.axelor.i18n.I18n;
 import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
 import com.google.common.io.Files;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 public class ImportEnvRegiServiceImpl implements ImportEnvRegiService {
 

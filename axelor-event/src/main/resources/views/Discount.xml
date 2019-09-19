@@ -18,7 +18,7 @@
 				<panel>
 						<field name="beforeDays" />
 						<field name="discountPercent" onChange="action-event-set-amount" />
-						<field name="event" onChange="action-event-set-amount" />
+						<field name="event" onChange="action-event-set-amount" if="_isOpenFromMenu" />
 						<field name="discountAmount" />
 				</panel>
 

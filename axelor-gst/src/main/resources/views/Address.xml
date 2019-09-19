@@ -29,9 +29,7 @@
 								canNew="true" onChange="action-address-change-city" form-view="city-form"
 								grid-view="city-grid" />
 						<field name="addressL6" x-bind="{{addressL6|uppercase}}" required="true" colSpan="12" />
-						<static name="addressL6Text" colSpan="12">Notice: The Zip/City field is automatically filled
-								when the city is selected. You can change it when the Zip/City pair is missing or in case of
-								minor change.
+						<static name="addressL6Text" colSpan="12">Notice: The Zip/City field is automatically filled when the city is selected. You can change it when the Zip/City pair is missing or in case of minor change.
 						</static>
 
 						<!-- gst -->

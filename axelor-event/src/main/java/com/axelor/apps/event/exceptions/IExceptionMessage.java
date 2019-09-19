@@ -6,4 +6,6 @@ public interface IExceptionMessage {
 
   public static final String VALIDATE_DISCOUNT_BEFORE_DAYS = /*$$(*/
       "Don’t allows to put days which exceed duration between open and close registration dates." /*)*/;
+
+  public static final String VALIDATE_EVENT = /*$$(*/ "Please select event." /*)*/;
 }

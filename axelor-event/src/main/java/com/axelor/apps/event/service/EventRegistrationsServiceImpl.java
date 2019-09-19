@@ -17,6 +17,8 @@ public class EventRegistrationsServiceImpl implements EventRegistrationsService 
 
   @Inject EventsRepository eventsRepository;
 
+  @Inject EventsService eventService;
+
   @Override
   public BigDecimal computeRegisterationAmount(EventRegistrations eventRegistrations) {
     BigDecimal maxDisc = BigDecimal.ZERO;
@@ -44,26 +46,7 @@ public class EventRegistrationsServiceImpl implements EventRegistrationsService 
   @Override
   @Transactional
   public Events changeEventDetail(Events events) {
-    BigDecimal amountCollected = BigDecimal.ZERO;
-    BigDecimal totalDiscount = BigDecimal.ZERO;
-    int totalEntry =
-        (int)
-            eventRegistrationsRepository
-                .all()
-                .filter("self.event= :event")
-                .bind("event", events)
-                .count();
-
-    for (EventRegistrations er : events.getEventRegistrations()) {
-      amountCollected = amountCollected.add(er.getAmount());
-    }
-
-    totalDiscount =
-        (events.getEventFees().multiply(new BigDecimal(totalEntry))).subtract(amountCollected);
-    events.setTotalEntry(totalEntry);
-    events.setAmountCollected(amountCollected);
-    events.setTotalDiscount(totalDiscount);
-
+    events = eventService.changeEventDetail(events);
     return eventsRepository.save(events);
   }
 }
